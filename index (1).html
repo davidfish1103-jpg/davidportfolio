@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Kaplan — ENC 1101 ePortfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F8F5F0;
+    --ink: #1A1714;
+    --ink-mid: #4A4540;
+    --ink-light: #8A8480;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-mid: #0F6E56;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --amber: #854F0B;
+    --amber-light: #FAEEDA;
+    --border: rgba(26,23,20,0.1);
+    --border-mid: rgba(26,23,20,0.18);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 0.5px solid var(--border-mid);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav a {
+    display: inline-block;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-light);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav a:hover { color: var(--ink); }
+  nav a.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 500; }
+  nav a:first-child { padding-left: 0; }
+
+  /* LAYOUT */
+  .page { display: none; max-width: 720px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero { padding-bottom: 2.5rem; border-bottom: 0.5px solid var(--border); margin-bottom: 3rem; }
+  .hero h1 { font-family: 'Lora', serif; font-size: 38px; font-weight: 400; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .hero p { font-size: 14px; color: var(--ink-light); }
+
+  /* SECTION LABEL */
+  .label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin: 2.5rem 0 1rem;
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+  .badge-teal { background: var(--teal-light); color: var(--teal-mid); }
+  .badge-purple { background: var(--purple-light); color: var(--purple); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+
+  /* ESSAY CARDS on home */
+  .card-grid { display: flex; flex-direction: column; gap: 1px; border: 0.5px solid var(--border-mid); border-radius: 12px; overflow: hidden; margin-bottom: 2rem; }
+  .essay-card {
+    background: white;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: background 0.12s;
+    border-bottom: 0.5px solid var(--border);
+    text-decoration: none;
+    display: block;
+  }
+  .essay-card:last-child { border-bottom: none; }
+  .essay-card:hover { background: #FDFCFB; }
+  .essay-card-title { font-family: 'Lora', serif; font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 4px; }
+  .essay-card-meta { font-size: 12px; color: var(--ink-light); margin-bottom: 8px; }
+  .essay-card-desc { font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 2.5rem; }
+  .stat { background: white; border: 0.5px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
+  .stat-label { font-size: 11px; color: var(--ink-light); margin-bottom: 4px; }
+  .stat-val { font-size: 20px; font-weight: 500; color: var(--ink); }
+
+  /* LETTER */
+  .letter {
+    background: white;
+    border: 0.5px solid var(--border-mid);
+    border-radius: 12px;
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .letter p { font-size: 15px; color: var(--ink); line-height: 1.8; margin-bottom: 1.1em; }
+  .letter p:last-child { margin-bottom: 0; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
+
+  /* ESSAY BODY */
+  .essay-header { margin-bottom: 1.75rem; }
+  .essay-header .essay-title { font-family: 'Lora', serif; font-size: 26px; font-weight: 400; line-height: 1.3; margin-bottom: 8px; }
+  .essay-header .essay-byline { font-size: 13px; color: var(--ink-light); }
+  .essay-body p { font-size: 15px; color: var(--ink); line-height: 1.85; margin-bottom: 1.1em; font-family: 'Lora', serif; }
+  .essay-body p:last-child { margin-bottom: 0; }
+
+  /* TAGS */
+  .tags { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; color: var(--ink-light); background: white; border: 0.5px solid var(--border-mid); border-radius: 20px; padding: 3px 10px; }
+
+  /* CONF REFLECTION */
+  .conf-box { border-left: 2px solid var(--teal); padding-left: 1.25rem; margin-bottom: 2rem; }
+  .conf-box p { font-size: 14px; color: var(--ink-mid); line-height: 1.75; }
+
+  /* REFERENCES */
+  .references { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 0.5px solid var(--border); }
+  .references p { font-size: 13px; color: var(--ink-light); line-height: 1.7; margin-bottom: 0.5em; padding-left: 2em; text-indent: -2em; }
+
+  @media (max-width: 600px) {
+    .page { padding: 2rem 1.25rem 4rem; }
+    nav { padding: 0 1.25rem; }
+    .hero h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="mainnav">
+  <a href="#" class="active" onclick="show('home',this);return false;">Home</a>
+  <a href="#" onclick="show('essay1',this);return false;">Essay 1</a>
+  <a href="#" onclick="show('essay2',this);return false;">Essay 2</a>
+  <a href="#" onclick="show('essay3',this);return false;">Essay 3</a>
+  <a href="#" onclick="show('designer',this);return false;">Designer letter</a>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero">
+    <h1>David Kaplan</h1>
+    <p>ENC 1101 — College Composition &nbsp;·&nbsp; Prof. Bojanowski &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; University of Central Florida</p>
+  </div>
+
+  <div class="label">About this portfolio</div>
+  <p style="font-size:15px;color:var(--ink-mid);line-height:1.8;margin-bottom:2rem;">This ePortfolio collects my work from ENC 1101. Across the semester I wrote three essays in three different genres — a personal literacy narrative, a rhetorical analysis of a real job application, and a community of practice essay about retail sporting goods sales. Together they show how my writing changed and what I learned about myself as a communicator. The portfolio is organized by module, one section per essay, so each piece can be understood on its own terms.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Major essays</div><div class="stat-val">3</div></div>
+    <div class="stat"><div class="stat-label">Cover letters</div><div class="stat-val">3</div></div>
+    <div class="stat"><div class="stat-label">Organization</div><div class="stat-val">By module</div></div>
+    <div class="stat"><div class="stat-label">Grading conference</div><div class="stat-val">Essay 1</div></div>
+  </div>
+
+  <div class="label">Essays</div>
+  <div class="card-grid">
+    <a class="essay-card" href="#" onclick="show('essay1',document.querySelectorAll('nav a')[1]);return false;">
+      <span class="badge badge-teal">Essay 1 — Literacy narrative</span>
+      <div class="essay-card-title">My literacy journey</div>
+      <div class="essay-card-meta">Personal essay &nbsp;·&nbsp; Spring 2026</div>
+      <div class="essay-card-desc">A reflection on struggling with writing from elementary school through college, and what it means to keep working at something that has never come easily.</div>
+    </a>
+    <a class="essay-card" href="#" onclick="show('essay2',document.querySelectorAll('nav a')[2]);return false;">
+      <span class="badge badge-purple">Essay 2 — Rhetorical analysis</span>
+      <div class="essay-card-title">Rhetorical analysis of a job application communication</div>
+      <div class="essay-card-meta">Academic essay &nbsp;·&nbsp; March 2026</div>
+      <div class="essay-card-desc">An analysis of the rhetorical choices I made when applying for a position at a local fishing retail store — examining exigence, audience, ethos, and constraints.</div>
+    </a>
+    <a class="essay-card" href="#" onclick="show('essay3',document.querySelectorAll('nav a')[3]);return false;">
+      <span class="badge badge-amber">Essay 3 — Community of practice</span>
+      <div class="essay-card-title">Selling what you know: expertise and identity in retail sporting goods sales</div>
+      <div class="essay-card-meta">Academic essay &nbsp;·&nbsp; April 2026</div>
+      <div class="essay-card-desc">An argument that retail sporting goods sales is a community of practice where membership is earned through informal skills, product credibility, and social recognition.</div>
+    </a>
+  </div>
+</div>
+
+<!-- ESSAY 1 -->
+<div id="essay1" class="page">
+  <span class="badge badge-teal">Essay 1 — Literacy narrative</span>
+
+  <div class="label">Cover letter</div>
+  <div class="letter">
+    <p>Professor Bojanowski,</p>
+    <p>My Literacy Narrative tells the story of a writer who has spent most of his life feeling like he was one step behind. The essay focuses on my experiences in elementary school, where I was always the last one to finish a writing assignment, always getting "approaching" instead of "proficiency" on the grading scale. I wanted to write honestly about that feeling rather than wrap it up in a way that felt fake or forced.</p>
+    <p>Getting started was the hardest part of this essay. I knew what I wanted to say, but I struggled to find the right entry point. I ended up opening with a specific memory — sitting under those fluorescent lights, watching everyone else finish while I was still stuck — because that image felt real and captured the experience better than any general statement could.</p>
+    <p>What I am most proud of is that the essay is honest. I did not pretend that I suddenly figured everything out or that college fixed the problem. I still struggle with writing. What changed is that I am more aware of it now, and I am choosing to work on it instead of working around it.</p>
+    <p>If I could go back and revise, I would make my main argument clearer earlier in the essay. Right now the thesis is more implied than stated, and I think a reader could get through the first few paragraphs without knowing exactly what point I am trying to make. I would also like to go deeper into how these experiences shaped my identity as a writer, not just describe what happened.</p>
+    <p>For this draft, I would ask you to focus your feedback on structure and argument — specifically, whether my point comes through clearly enough, and where you think I need to push my reflection further.</p>
+    <p>David Kaplan</p>
+  </div>
+
+  <div class="label">Grading conference reflection</div>
+  <div class="conf-box">
+    <p>My essay needed a lot of work. I was missing my cover page and did not follow APA format. I did not follow the rubric properly. The teacher gave me some pointers and tricks when writing APA format. She recommended Scribbr and Claude. That conversation taught me that the details of formatting are not separate from the argument — they are part of how seriously a reader takes your work.</p>
+  </div>
+
+  <hr>
+
+  <div class="essay-header">
+    <div class="essay-title">My literacy journey</div>
+    <div class="essay-byline">David Kaplan &nbsp;·&nbsp; ENC 1101 &nbsp;·&nbsp; Prof. Bojanowski &nbsp;·&nbsp; Spring 2026</div>
+  </div>
+
+  <div class="essay-body">
+    <p>The classroom felt too bright that day in elementary school, the fluorescent lights humming above rows of desks where my classmates seemed to glide effortlessly through their reading assignments. I stared at the page in front of me, watching other students finish while I was still stuck on the first paragraph. It wasn't that I couldn't read the words or that I didn't know how to write. It was that I didn't know what to write. I would start to overthink and question myself on whether what I was writing was quality work, or if it made no sense, or if it was going to get me a good enough grade. Then after 20 minutes I would start to worry if I was going to be the only kid who needed more time on the assignment.</p>
+    <p>That feeling of being behind my classmates became a constant companion through those early years. While other students would raise their hands eagerly in hopes of getting picked to read out loud in front of the whole class, I would cross my fingers and hope the teacher wouldn't call on me. While classmates finished their writing assignments and moved on to other activities, I was the last kid everyone was waiting on to finish. I'm stressing, leaning over my desk, trying to find the right words that seemed to come so easily to all the other students. But I always found a way to finish, or at least turn something in, and get a decent grade.</p>
+    <p>The struggle that I had with writing wasn't dramatic or a huge issue. It was the moment where we had to do a writing assignment. To me it felt like a language everyone else spoke fluently, and I was just figuring it out. What made it hard for me wasn't just the academic challenge — it was the comparison to other students. I could see what "proficiency" looked like all around me, and I knew I wasn't there. My elementary school actually graded on a scale from "proficiency" being the best to "approaching" to "Not Yet." I would always get approaching, but never proficiency.</p>
+    <p>The challenges I faced in elementary school didn't disappear with age, but they evolved. I am able to write much better, but I've learned to communicate in other ways. I love to talk in person. I don't have time to second-guess myself on whether what I'm saying makes sense or not. I discovered that literacy isn't the only form of expression. When I can, I choose to converse instead of emailing, texting, or calling. Some people might say that I am acting like an avoidant, which may be true. But to me I see it as being able to keep it real with myself — recognizing my strengths and working within them rather than against them.</p>
+    <p>Yet something has shifted recently as I started college. Despite the years of struggle, despite the workarounds I've created, I really want to become a great writer. I know that it is not going to get easier. I know it will only get harder as the years go on. But I believe I can do it. I don't know exactly what that improvement will look like. But I'm starting with writing something that feels authentic rather than forced. I believe that simply becoming more comfortable with the discomfort, and not worrying as much, will help me.</p>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Literacy narrative</span>
+    <span class="tag">Personal essay</span>
+    <span class="tag">Reflection</span>
+    <span class="tag">Identity</span>
+  </div>
+</div>
+
+<!-- ESSAY 2 -->
+<div id="essay2" class="page">
+  <span class="badge badge-purple">Essay 2 — Rhetorical analysis</span>
+
+  <div class="label">Cover letter</div>
+  <div class="letter">
+    <p>Professor Bojanowski,</p>
+    <p>This essay argues that successful job application communication requires rhetorical awareness, strategic self-presentation, and an understanding of what your audience values. I chose to analyze my own application to a local fishing retail store because it was a recent, real communication event with a clear outcome — I got the job — which gave me concrete material to work with.</p>
+    <p>The hardest part was connecting my personal experience back to Carroll's framework in every section without it feeling forced. I wanted the analysis to feel grounded in what actually happened, not just a checklist of rhetorical terms. I think I got closest to that balance in the ethos section, where I explain how my fishing experience functioned as credibility in a way that institutional credentials could not.</p>
+    <p>What I'm most proud of is the audience section, where I identify both the store owner and the store's future customers as audiences, even though only one was in the room. That felt like a real analytical move, not just description.</p>
+    <p>If I could revise, I would strengthen the resume portion of the analysis. I focused heavily on the interview because that is where I felt most confident, but the resume was the first rhetorical act and deserves more attention. I would also add a second source to deepen the theoretical grounding.</p>
+    <p>For grading, please focus on whether my application of Carroll's framework is consistent and whether my argument holds across all four sections.</p>
+    <p>David Kaplan</p>
+  </div>
+
+  <hr>
+
+  <div class="essay-header">
+    <div class="essay-title">Rhetorical analysis of a job application communication</div>
+    <div class="essay-byline">David Kaplan &nbsp;·&nbsp; ENC 1101 &nbsp;·&nbsp; Prof. Bojanowski &nbsp;·&nbsp; March 2026</div>
+  </div>
+
+  <div class="essay-body">
+    <p>Rhetoric is the art of using language strategically to achieve a desired effect on an audience. As Carroll (2010) explains in "Backpacks vs. Briefcases: Steps Toward Rhetorical Analysis," every act of communication is shaped by a rhetorical situation — a set of circumstances including the exigence, the rhetor, the audience, and the constraints that together determine how a message is composed and received. Understanding this framework allows communicators to analyze not just what was said, but why certain choices were made and how effectively they worked.</p>
+    <p>The communication selected for this analysis is a resume and in-person interview conducted for a position at a local retail fishing store. Within the past six months, I applied for and was hired for this job, making it a significant and successful communication event. Successful job application communication requires rhetorical awareness, strategic self-presentation, and an understanding of what your audience values.</p>
+    <p>The exigence was my desire for work. I was a freshman at college, looking for a part-time job that I could do around my school schedule, and one that also reflected my interests. I've always loved fishing; therefore when I found out that a local fishing retail store was hiring, I saw a chance to find an opportunity for both financial gain and a way to pursue an interest. My objective was clear: I needed to demonstrate to the store owner why I was the best candidate for the job — presenting myself as dependable, knowledgeable, and enthusiastic.</p>
+    <p>As the rhetor, I took on the persona of a dedicated, knowledgeable young individual who is just starting to build his career, but has authentic experience and passion for this particular area. I emphasized my own personal fishing experiences — specific techniques I had utilized, what species of fish I had targeted, and the type of equipment I was familiar with. Carroll (2010) would describe this as ethos built through personal investment and demonstrated competence rather than institutional credentials.</p>
+    <p>The primary audience was the business owner, who conducted the interview in person. A small specialty store owner values employees who represent the brand authentically, require little micromanagement, and connect genuinely with customers. There was also a secondary audience: the store's existing customers. They were not in the room, but they were present in the owner's evaluation. Every question asked was, in part, a question about how I would perform in front of paying customers.</p>
+    <p>Several constraints shaped the communication. My genuine passion for fishing gave me natural fluency in the conversation. The in-person format helped, because I communicate better through conversation than through writing. At the same time, the power dynamic between a business owner and a job applicant is unequal. My lack of formal work experience was also a limiting factor — with no previous employer references, I needed my personal knowledge and demeanor to stand out.</p>
+    <p>Analyzing this communication through a rhetorical lens reveals how many deliberate choices shaped what I said and how I said it. The exigence gave me urgency and direction. My identity as a fishing enthusiast became my primary tool of credibility. If I were to do this again, I would put more effort into my resume. At the time, I focused on the interview because I knew I performed best there. In retrospect, the resume was the first rhetorical act — the one that got me through the door.</p>
+  </div>
+
+  <div class="references">
+    <p>Carroll, L. B. (2010). Backpacks vs. briefcases: Steps toward rhetorical analysis. In C. Lowe & P. Zemliansky (Eds.), <em>Writing spaces: Readings on writing</em> (Vol. 1, pp. 45–58). Parlor Press.</p>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Rhetorical analysis</span>
+    <span class="tag">Carroll 2010</span>
+    <span class="tag">Ethos</span>
+    <span class="tag">Job application</span>
+  </div>
+</div>
+
+<!-- ESSAY 3 -->
+<div id="essay3" class="page">
+  <span class="badge badge-amber">Essay 3 — Community of practice</span>
+
+  <div class="label">Cover letter</div>
+  <div class="letter">
+    <p>Professor Bojanowski,</p>
+    <p>This essay argues that retail sporting goods sales operates as a structured community of practice in which newcomers earn membership not through formal training alone but through a process of accumulating credibility, adopting shared language, and demonstrating product knowledge in real customer interactions.</p>
+    <p>The two sources I used shaped that argument directly. Pichot and Pierre (2024) gave me a specific term to work with: informal skills. They found that sporting goods retailers depend on employees who possess tacit, experience-based knowledge that no orientation manual teaches. Roberts (2012) added a harder edge to that finding — she documented that low-level retail workers often develop genuine skills on the floor, but that those skills go unrecognized by employers and are rarely rewarded. Together, the sources pushed me toward a thesis about a gap: knowledge gets built inside this community, but the structure of the workplace does not always acknowledge it.</p>
+    <p>The most difficult part of writing this essay was the conclusion. The assignment asked for a "so what," and I had to resist the urge to simply restate the thesis. What I landed on is this: expertise in this community is real, but it is socially assigned. That is not unique to retail sporting goods — it is a feature of how most communities of practice work.</p>
+    <p>I revised the essay by cutting paragraphs that described the community rather than analyzed it. Early drafts spent too much time explaining what sporting goods salespeople do. The stronger version focuses on what that work reveals about how identity and knowledge develop together.</p>
+    <p>David Kaplan</p>
+  </div>
+
+  <hr>
+
+  <div class="essay-header">
+    <div class="essay-title">Selling what you know: expertise and identity in retail sporting goods sales</div>
+    <div class="essay-byline">David Kaplan &nbsp;·&nbsp; ENC 1101 &nbsp;·&nbsp; Prof. Bojanowski &nbsp;·&nbsp; April 2026</div>
+  </div>
+
+  <div class="essay-body">
+    <p>Walking into Bass Pro Shops or Dick's Sporting Goods, a customer expects more than a transaction. They expect the person behind the counter to know what they are talking about. That expectation is not accidental — it reflects how the sporting goods retail community is structured: product knowledge is currency, and the employee who possesses it earns trust, status, and a more central role on the floor. Jean Lave and Etienne Wenger's concept of a community of practice describes exactly this kind of workplace. A community of practice is a group of people who share a domain of knowledge, engage in joint activity, and develop common practices over time (Lave & Wenger, 1991). Retail sporting goods sales fits that definition precisely, and recent research reveals something specific: becoming a recognized member of this community requires more than learning the job. It requires acquiring informal skills that are rarely taught, performing competence in front of peers and customers, and earning acknowledgment from the community itself.</p>
+    <p>The foundation of expertise in retail sporting goods is informal skill. Pichot and Pierre (2024) studied sporting goods retailers in France and found that employers consistently value employees who possess tacit, experience-based knowledge about the activities their products support. A salesperson who fishes, hunts, or runs is not simply a hobbyist — inside this community, that person is a resource. They speak the language customers use. They understand product performance in real conditions, not just as listed on a spec sheet. Pichot and Pierre (2024) describe this as a form of relational competence: the ability to meet a customer inside their own frame of reference and guide them toward a decision. This is a textbook example of what Lave and Wenger call shared repertoire.</p>
+    <p>Roberts (2012) complicates this picture in a useful way. Her study of low-level retail workers in the United Kingdom found that employees do develop genuine skills on the job — including product knowledge, customer service techniques, and workplace problem-solving. The problem she identifies is that these skills often go unrecognized by employers and are rarely formalized into advancement opportunities. Workers learn, but the institutional structure does not reward that learning in consistent ways. This is a direct tension with Lave and Wenger's model, which assumes that legitimate peripheral participation leads progressively toward full membership. Roberts's research suggests that the path inward is not automatic.</p>
+    <p>Lave and Wenger's concept of legitimate peripheral participation describes the process by which newcomers enter a community and gradually take on more responsibility and visibility. In retail sporting goods, this process is highly visible. A new hire typically starts at the register or in a general floor role. Over time, as they demonstrate product knowledge and customer credibility, they get assigned to specific departments. Department assignment is not just a scheduling decision — it is a social signal. Being placed in a specialized department means the community has decided you belong there.</p>
+    <p>My own position in this community is specific. I have worked in sporting goods retail, and I come from a commercial fishing background. That combination gives me a starting point that most newcomers do not have. Pichot and Pierre (2024) would classify that as a form of pre-existing informal skill. Roberts (2012) would add a caution: having the skill does not guarantee that the community will formally recognize it. Full membership requires that the knowledge gets performed in front of the right people, at the right moments, often enough that it becomes part of how others identify you.</p>
+    <p>What retail sporting goods sales reveals about expertise is not unique to retail. Expertise in most communities of practice is built through two parallel processes: the accumulation of knowledge and the social recognition of that knowledge by others. Those two processes do not always move at the same pace. For someone entering this community, understanding both dynamics matters. Entering a community of practice is not an event with a clear start and finish — it is a process of repeated, visible participation that the community evaluates on its own terms. The person who understands that from the beginning is already closer to the center than the person who does not.</p>
+  </div>
+
+  <div class="references">
+    <p>Lave, J., & Wenger, E. (1991). <em>Situated learning: Legitimate peripheral participation.</em> Cambridge University Press.</p>
+    <p>Pichot, L., & Pierre, J. (2024). Importance of informal skills for sporting goods retailers in the service relationship. <em>Relations Industrielles, 79</em>(3-4). https://doi.org/10.7202/1118803ar</p>
+    <p>Roberts, S. (2012). Gaining skills or just paying the bills? Workplace learning in low-level retail employment. <em>Journal of Vocational Education & Training, 64</em>(3), 267–290. https://doi.org/10.1080/13636820.2012.696544</p>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Community of practice</span>
+    <span class="tag">Lave & Wenger</span>
+    <span class="tag">Informal skills</span>
+    <span class="tag">Retail</span>
+    <span class="tag">Sporting goods</span>
+  </div>
+</div>
+
+<!-- DESIGNER COVER LETTER -->
+<div id="designer" class="page">
+  <div class="label">Designer cover letter</div>
+  <div class="letter">
+    <p>Professor Bojanowski,</p>
+    <p>I organized this portfolio by module — one section per essay — because I wanted each piece of writing to stand on its own. The three essays I wrote this semester are different enough in genre, audience, and argument that forcing them under shared thematic headings felt like it would erase the distinctions that matter. Keeping them separate lets a reader see the full arc of each assignment: the cover letter, the essay itself, and the process behind it.</p>
+    <p>I chose to build this portfolio as a clean, navigable website because I wanted the design to stay out of the way of the writing. My instinct as a communicator has always been to keep things direct. A complicated or heavily decorated layout would have contradicted what I actually want to say about myself: that I am someone learning to let the work speak.</p>
+    <p>My Literacy Narrative was the hardest essay to start. I knew the story I wanted to tell, but I kept second-guessing whether it was interesting enough or specific enough. What the essay taught me is that the struggle to find the right entry point is itself part of the story. I am most proud of the honesty in that piece — I did not wrap it up neatly, because my experience with writing has not been neat. What I would do differently is state my argument more directly at the opening so readers know what I am building toward.</p>
+    <p>The Rhetorical Analysis surprised me. Applying Carroll's framework to something I had actually lived — my job interview at the fishing store — made the concepts click in a way that a hypothetical example would not have. I learned that I already think rhetorically in high-stakes conversations; I just had never named it before. What I would do differently is spend more time on the resume, which I underdeveloped because I was more confident in the interview portion of the analysis.</p>
+    <p>The Community of Practice essay was the most academically demanding. Connecting Lave and Wenger to real sources and to my own experience required a kind of layered thinking I had not practiced before. What it taught me is that good analysis resists description — you have to keep asking what something means, not just what it is. The conclusion was the hardest part, and I revised it several times before landing on the idea that expertise is real but socially assigned.</p>
+    <p>My grading conference for Essay 1 was direct and useful. I had missed the cover page and had not followed APA format correctly. More than the specific corrections, what I took from that conversation was that the details of formatting are not separate from the argument — they are part of how seriously a reader takes your work. I left with two resources (Scribbr and Claude) and a clearer sense of what following the rubric actually looks like in practice.</p>
+    <p>What I know about myself as a writer now that I did not know at the start of the semester is that my resistance to writing is not a sign that I cannot do it. It is a sign that I care about doing it well. The writers who struggle the most are often the ones who are paying the most attention. I am still in that uncomfortable place where the gap between what I want to say and what ends up on the page feels wide. But I am starting to trust that closing that gap is the work — not a sign that I am failing at it.</p>
+    <p>David Kaplan</p>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
